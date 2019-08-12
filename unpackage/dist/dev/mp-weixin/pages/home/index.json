@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "萌宠",
+  "usingComponents": {
+    "animal-info": "/components/common/animal-info",
+    "sl-filter": "/components/songlazy-sl-filter/sl-filter/sl-filter",
+    "modal-info": "/components/common/modal-info",
+    "modal-user-info": "/components/common/modal-user-info"
+  }
+}

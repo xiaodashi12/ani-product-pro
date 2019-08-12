@@ -1,0 +1,18 @@
+
+.cu-list.menu-avatar>.cu-item.data-v-e29e8458 {
+	height:240rpx !important;
+	padding: 0;
+}
+.cu-avatar.lg.data-v-e29e8458{
+	width: 140rpx;
+	height: 140rpx;
+}
+.cu-list.menu-avatar.data-v-e29e8458 {
+	margin:20rpx 10rpx;
+	border-radius: 20rpx;
+}
+.cu-list.menu-avatar>.cu-item .content.data-v-e29e8458 {
+	left:200rpx;
+	width:70%;
+}
+

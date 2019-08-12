@@ -1,0 +1,43 @@
+{
+  "pages": [
+    "pages/home/index",
+    "pages/map/index",
+    "pages/own/index"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "宠萌",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#3cc51f",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/home/index",
+        "iconPath": "/static/img/home.png",
+        "selectedIconPath": "/static/img/selehome.png",
+        "text": "主子回家"
+      },
+      {
+        "pagePath": "pages/map/index",
+        "iconPath": "/static/img/map.png",
+        "selectedIconPath": "/static/img/selemap.png",
+        "text": "丢失地图"
+      },
+      {
+        "pagePath": "pages/own/index",
+        "iconPath": "/static/img/own.png",
+        "selectedIconPath": "/static/img/seleown.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "permission": {},
+  "usingComponents": {},
+  "sitemapLocation": "sitemap51.json"
+}

@@ -1,0 +1,36 @@
+
+.sub-title.data-v-43407b45{
+	padding:20rpx;
+}
+.cu-form-group .title.data-v-43407b45{
+	-webkit-box-flex:1;
+	-webkit-flex:1;
+	    -ms-flex:1;
+	        flex:1;
+}
+.cu-list.menu-avatar>.cu-item .content.data-v-43407b45{
+	left:220rpx;
+}
+.rules-scroll.data-v-43407b45{
+	-webkit-box-sizing: border-box;
+	        box-sizing: border-box;
+	height: 268rpx;
+	border: 1rpx solid #E3E3E3;
+	line-height: 50rpx;
+	padding:20rpx 30rpx;
+}
+.rules-view.data-v-43407b45{
+	margin-bottom: 20rpx;
+	font-size: 26rpx;
+	color: #666666;
+}
+.rules-view-new.data-v-43407b45{
+	font-size: 26rpx;
+	color: #666666;
+}
+.rule-cb.data-v-43407b45{
+	font-size: 26rpx;
+	padding:20rpx 30rpx;
+	color: #999999;
+}
+
