@@ -3,9 +3,9 @@ const config = {
 		url: '/login.htm',
         method: '/login.htm'
 	},
-	'getSsoToken': {//2.2 获取tokenId
-        url: '',
-        method: 'SSO_TOKEN_REQ_88000101_'
+	'getSessionKey': {//2.2 获取tokenId
+        url: '/getSessionKey.htm',
+        method: '/getSessionKey.htm'
     },
 	'getLoginOut': {//2.3 退出登录
         url: '',

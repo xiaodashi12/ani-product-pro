@@ -25,9 +25,9 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
     url: '/login.htm',
     method: '/login.htm' },
 
-  'getSsoToken': { //2.2 获取tokenId
-    url: '',
-    method: 'SSO_TOKEN_REQ_88000101_' },
+  'getSessionKey': { //2.2 获取tokenId
+    url: '/getSessionKey.htm',
+    method: '/getSessionKey.htm' },
 
   'getLoginOut': { //2.3 退出登录
     url: '',
@@ -67,7 +67,6 @@ Request = /*#__PURE__*/function () {
         _this2.resInterceptors = fn;
       } };
 
-    debugger;
   }_createClass(Request, [{ key: "get", value: function () {var _get = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(
       url) {var config,_args = arguments;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:config = _args.length > 1 && _args[1] !== undefined ? _args[1] : {};return _context.abrupt("return",
                 this._request('get', url, config));case 2:case "end":return _context.stop();}}}, _callee, this);}));function get(_x) {return _get.apply(this, arguments);}return get;}() }, { key: "post", value: function () {var _post = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2(
@@ -88,7 +87,6 @@ Request = /*#__PURE__*/function () {
       return this.config;
     } }, { key: "_request", value: function _request(
     method, url, config) {
-      debugger;
       config = _objectSpread({},
       config, {
         'method': method });
@@ -219,7 +217,7 @@ _request.default.setConfig({
   responseType: 'text', // 可删除，默认为text
   // 设置请求头，支持所有请求头设置，也可不设置，去掉header就行
   header: {
-    'Content-Type': 'multipart/form-data'
+    'Content-Type': 'application/json'
     // 'binfile-auth': '000099'
   } });
 
@@ -227,10 +225,9 @@ _request.default.setConfig({
 _request.default.interceptors.request(function (config) {
 
   if (config.method.toLowerCase() !== 'get' && Object.keys(config.data).length > 0) {
-    debugger;
     var Body = {};
     var data = {};
-
+    debugger;
     for (var key in config.data) {
       if (key != 'method') {
         Body[key] = config.data[key];
@@ -241,9 +238,9 @@ _request.default.interceptors.request(function (config) {
     if (uni.getStorageSync('ticket')) {
       data.ticket = uni.getStorageSync('ticket') || '';
     }
-
     config.data = JSON.stringify(data);
   }
+  debugger;
   return config; // 返回修改后的配置，如未修改也需添加这行
 });
 
@@ -271,11 +268,11 @@ _request.default.interceptors.response(function (response) {
 }, function (error) {
   return Promise.reject({ code: error.return_code, message: error.message });
 });
-// // 挂载到全局vue实例上，在页面中可以使用this.$request调用request实例下相应方法
+// 挂载到全局vue实例上，在页面中可以使用this.$request调用request实例下相应方法
 _vue.default.prototype.$request = _request.default;
-// Vue.prototype.log = function(info){
-//     console.log(info);
-// }
+_vue.default.prototype.log = function (info) {
+  console.log(info);
+};
 
 var app = new _vue.default(_objectSpread({
   store: _store.default },

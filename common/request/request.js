@@ -19,7 +19,6 @@ class Request {
         this.resInterceptors = fn;
       }
     }
-	debugger
   }
   async get(url, config = {}) {
     return this._request('get', url, config);
@@ -40,7 +39,6 @@ class Request {
     return this.config;
   }
   _request(method, url, config) {
-		debugger
 		config = {
 			...config,
 			'method':method

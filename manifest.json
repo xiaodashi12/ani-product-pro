@@ -60,10 +60,14 @@
             "urlCheck" : true,
             "minified" : false,
             "postcss" : true,
-            "es6" : false
+            "es6" : true
         },
         "usingComponents" : true,
-        "permission" : {}
+        "permission" : {
+            "scope.userLocation" : {
+                "desc" : ""
+            }
+        }
     },
     "mp-alipay" : {
         "usingComponents" : true
