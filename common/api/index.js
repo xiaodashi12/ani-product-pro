@@ -7,6 +7,10 @@ const config = {
         url: '/getSessionKey.htm',
         method: '/getSessionKey.htm'
     },
+	'getLostPet': {//发布走失信息
+	    url: '/publishBeLostPet.htm',
+	    method: '/publishBeLostPet.htm'
+	},
 	'getLoginOut': {//2.3 退出登录
         url: '',
         method: 'SSO_LOGOUT_REQ_88000101_'

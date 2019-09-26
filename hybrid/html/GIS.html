@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>GaoDeGIS</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<!--使移动端获得更好的图形渲染效果-->
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+		<link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
+	</head>
+	<style>
+		html,
+        body,
+        #container {
+          width: 100%;
+          height: 100%;
+        }
+	</style>
+	<body>
+		<!--地图容器 -->
+		<div id="container"></div>
+		<!-- 微信 JS-SDK 如果不需要兼容微信小程序，则无需引用此 JS 文件。 -->
+		<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
+		<!-- 支付宝的 JS-SDK 防止 404 需要动态加载，如果不需要兼容支付宝小程序，则无需引用此 JS 文件。 -->
+		<script type="text/javascript">
+			if (navigator.userAgent.indexOf('AlipayClient') > -1) {
+				document.writeln('<script src="https://appx/web-view.min.js"' + '>' + '<' + '/' + 'script>');
+			}
+		</script>
+		<!-- uni 的 SDK -->
+		<script type="text/javascript" src="https://js.cdn.aliyun.dcloud.net.cn/dev/uni-app/uni.webview.1.5.1.js"></script>
+		<!--<script type="text/javascript">
+			document.addEventListener('UniAppJSBridgeReady', function() {
+						let str = window.location.search;
+						uni.postMessage({
+							data: {
+								str: str
+							}
+						});
+						<uni.reLaunch({
+							url: '/pages/index/index?str' + str, //这个路径就是你自己项目需要回调的页面,str是你的传参
+							animationType: 'none',          	
+							animationDuration: 0,
+							}); //网页向应用 postMessage 时，会在特定时机（后退、组件销毁、分享）触发并收到消息。所以这段代码是必须的	
+			});
+		</script>-->
+
+		<!-- 高德地图 异步加载-->
+		<script type="text/javascript">
+					
+			window.init = function() {
+				var map = new AMap.Map('container', {
+					resizeEnable: true,
+					center: [117.000923, 36.675807], //设置中心点
+					zoom: 11, //设置初始化层级
+					isHotspot: true, //设置热点
+					indoorMap: true //设置室内导航显示
+				})
+
+				AMap.plugin(['AMap.Scale','AMap.ControlBar','AMap.MapType'], function() {
+					map.addControl(new AMap.Scale());
+					map.addControl(new AMap.ControlBar());
+					map.addControl(new AMap.MapType());
+				})
+			}
+		</script>
+		<script src="https://webapi.amap.com/maps?v=1.4.15&key=13278aa1b6d16e8d4beff5cc4ea4ff21&callback=init"></script>
+	</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="GIS" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+		<title>输入提示后查询</title>
+		<link rel="stylesheet" href="https://cache.amap.com/lbs/static/main1119.css"/>
+		<!-- 微信 JS-SDK 如果不需要兼容小程序，则无需引用此 JS 文件 -->
+		<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
+		<link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css"/>
+		<!-- uni 的 SDK -->
+		<script type="text/javascript" src="https://js.cdn.aliyun.dcloud.net.cn/dev/uni-app/uni.webview.1.5.1.js"></script>
+		<!-- 高德地图 KEY-->
+		<script src="http://webapi.amap.com/maps?v=1.4.15&key=13278aa1b6d16e8d4beff5cc4ea4ff21&plugin=AMap.Autocomplete,AMap.PlaceSearch"></script>
+		<script type="text/javascript" src='https://a.amap.com/jsapi_demos/static/resource/js/tiantan.js'></script>
+		<script type="text/javascript" src="https://cache.amap.com/lbs/static/addToolbar.js"></script>
+		<style type="text/css">
+			
+		</style>
+	</head>
+	<body>
+		<!--地图容器 -->
+        <div id="container" style="width: 100%; height: 60rem;"></div>
+		<div id="myPageTop">
+			<table>
+				<tr>
+                    <td>
+                        <label>按关键字搜索：</label>
+                    </td>
+                    <td class="column2">
+                        <label>左击标记点获取经纬度：</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" id="tipinput"   autocomplete="off" "if(event.keyCode==13)return false;" placeholder="请输入关键字进行搜索" >
+                    </td>
+                    <td class="column2">
+                        <input type="text"  readonly="true" id="lnglat" name="lnglat" >
+                    </td>
+                </tr>
+
+			</table>
+		</div>
+		<script type="text/javascript">
+			  //地图加载
+			var map = new AMap.Map("container", {
+				resizeEnable: true,
+				zoom: 18
+			});
+			//为地图注册click事件获取鼠标点击出的经纬度坐标
+			var clickEventListener = map.on('click', function(e) {
+				debugger
+				var lng=e.lnglat.getLng();
+				var lat=e.lnglat.getLat();
+				document.getElementById("lnglat").value = e.lnglat.getLng() + ',' + e.lnglat.getLat();
+				var lnglatXY = [lng, lat];//地图上所标点的坐标
+				AMap.service('AMap.Geocoder',function() {//回调函数
+					geocoder = new AMap.Geocoder({
+					});
+					geocoder.getAddress(lnglatXY, function (status, result) {
+						if (status === 'complete' && result.info === 'OK') {
+							//获得了有效的地址信息:
+							//即，result.regeocode.formattedAddress
+							debugger
+							console.log(result.regeocode.formattedAddress);
+							var address = result.regeocode.formattedAddress;
+						} else {
+							//获取地址失败
+						}
+					});
+				})
+				if (marker) {
+					marker.setMap(null);
+					marker = null;
+				}
+				addMarker(e.lnglat.getLng(),e.lnglat.getLat());
+				//这边是数组
+				var lnglatXY=[e.lnglat.getLng(),e.lnglat.getLat()];
+				//regeocoder(lnglatXY);
+			});
+
+			var auto = new AMap.Autocomplete({
+				input: "tipinput"
+			});
+
+			//注册监听，当选中某条记录时会触发
+			AMap.event.addListener(auto, "select", select);
+			function select(e) {
+				var lng = e.poi.location.lng;
+				var lat = e.poi.location.lat;
+				document.getElementById("lnglat").value = lng+","+lat;
+				if (e.poi && e.poi.location) {
+					map.setZoom(15);
+					map.setCenter(e.poi.location);
+					addMarker(lng,lat);
+				}
+			}
+
+			var marker;
+			// 实例化点标记
+			function addMarker(lng,lat) {
+				marker = new AMap.Marker({
+					icon: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+					position: [lng, lat]
+				});
+				marker.setMap(map);
+			}
+
+			//坐标-地址
+			function regeocoder(lnglatXY) {  //逆地理编码
+				var geocoder = new AMap.Geocoder({
+					radius: 1000,
+					extensions: "all"
+				});
+				geocoder.getAddress(lnglatXY, function(status, result) {
+					if (status === 'complete' && result.info === 'OK') {
+						geocoder_CallBack(result);
+					}
+				});
+			}
+
+			function geocoder_CallBack(data) {
+				 var address1 = data.regeocode.formattedAddress; //返回地址描述
+				document.getElementById("tipinput").value=address1;
+			}
+		</script>
+	</body>
+</html>

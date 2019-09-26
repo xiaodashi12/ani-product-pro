@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+	<script src="http://webapi.amap.com/maps?v=1.4.15&key=13278aa1b6d16e8d4beff5cc4ea4ff21"></script>
+	<script type="text/javascript" src='https://a.amap.com/jsapi_demos/static/resource/js/tiantan.js'></script>
+    <title>自定义图层-SVG</title>
+    <style>
+        html,
+        body,
+        #container {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+		 * { touch-action: pan-y; } 
+    </style>
+</head>
+<body>
+
+<div id="container"></div>
+
+<script>
+
+    var starCenter = [116.306206, 39.975468]
+    var map = new AMap.Map('container', {
+        center: starCenter,
+        zoom: 0,
+    });
+
+    map.plugin(['AMap.CustomLayer'], function () {
+        var size = map.getSize();
+        var canvas = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        canvas.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+        canvas.setAttribute('width', size.width);
+        canvas.setAttribute('height', size.height);
+
+        path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.onclick = function () {
+            console.log('svg path clicked')
+        }
+		use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+		use.setAttributeNS('http://www.w3.org/1999/xlink','href','/static/test.svg#heart');
+				
+		canvas.appendChild(use);
+		
+        var styleText = [];
+        styleText.push('stroke:red');
+        styleText.push('fill:green');
+        styleText.push('fill-opacity:0.1');
+        path.style.cssText = styleText.join(';');
+        
+        canvas.appendChild(path);
+        var customLayer = new AMap.CustomLayer(canvas, {
+            // zooms: [3, 8],
+            // alwaysRender:true,
+            zIndex: 300
+        });
+        customLayer.render = onRender;
+        map.add(customLayer)
+    });
+
+    function buildPath() {
+        var path = [];
+        var center = map.lngLatToContainer(new AMap.LngLat(119.825566, 30.194021));
+        var r=50*map.getZoom()/20;
+        for (k = 0; k < 6; k += 1) {
+            var ag = Math.PI * 60 / 180 * k
+            var x = center.x + Math.cos(ag) * r
+            var y = center.y + Math.sin(ag) * r
+            path.push((k == 0 ? 'M' : 'L') + x + ' ' + y);
+        }
+        return path.join(' ') + ' Z';
+    }
+
+    function onRender() { //更新路径
+        var newPath = buildPath();
+        path.setAttribute('d', newPath);
+		var center = map.lngLatToContainer(new AMap.LngLat(119.825566, 30.194021));
+		var x=center.x-(6*map.getZoom()/18);
+		var y=center.y-(6*map.getZoom()/18);
+		var translate = "translate(" +x+ "," +y+ ") ";
+		var scale = map.getZoom()/18;
+		use.setAttribute("transform", translate + "scale(" + scale + ")");
+		
+		// use.setAttribute('x',center.x-(6*map.getZoom()/18));
+		// use.setAttribute('y',center.y-(6*map.getZoom()/18));
+		// use.setAttribute('width',12*map.getZoom()/18+'px');
+		// use.setAttribute('height',12*map.getZoom()/18+'px');
+		// console.log("Zoom="+map.getZoom());
+		// console.log("width="+12*map.getZoom()/18);
+    }
+</script>
+</body>
+</html>

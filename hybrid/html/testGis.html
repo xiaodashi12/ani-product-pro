@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="GIS" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+		<title>浏览器精确定位</title> 
+		<link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
+		<style>
+        html,body,#container{
+            height:100%;
+        }
+        .info{
+            width:26rem;
+        }
+    </style>
+	</head>
+	<body>
+		<!-- 微信 JS-SDK 如果不需要兼容小程序，则无需引用此 JS 文件 -->
+		<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
+		<!-- uni 的 SDK -->
+		<script type="text/javascript" src="https://js.cdn.aliyun.dcloud.net.cn/dev/uni-app/uni.webview.1.5.1.js"></script>
+		<!-- 高德地图 KEY-->
+		<script src="https://webapi.amap.com/maps?v=1.4.15&key=13278aa1b6d16e8d4beff5cc4ea4ff21&plugin=Map3D,ElasticMarker"></script>
+        <script type="text/javascript" src='https://a.amap.com/jsapi_demos/static/resource/js/tiantan.js'></script>
+		<!--地图容器 -->
+        <div id="container"  tabindex="0" style="width: 100%; height: 100%;"></div>
+		
+		
+		<script type="text/javascript">
+			var map = new AMap.Map('container', {
+				resizeEnable: 'true'
+			});
+
+			/* //添加定位插件
+			AMap.plugin('AMap.Geolocation', function() {
+				var geolocation = new AMap.Geolocation({
+					enableHighAccuracy: true, //是否使用高精度定位，默认:true
+					timeout: 10000, //超过10秒后停止定位，默认：5s
+					buttonPosition: 'RB', //定位按钮的停靠位置
+					buttonOffset: new AMap.Pixel(10, 20), //定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+					//zoomToAccuracy: true, //定位成功后是否自动调整地图视野到定位点			
+				});
+				map.addControl(geolocation);
+				geolocation.getCurrentPosition(function(status, result) {
+					if (status == 'complete') {
+						console.log("定位成功,返回:" + result);
+					} else {
+						console.log("定位失败,失败原因:" + result.message)
+					}
+				});
+			}); */
+			//添加插件
+			AMap.plugin(['AMap.Scale', 'AMap.MapType', 'AMap.ControlBar', 'AMap.ToolBar'], function() {
+				map.addControl(new AMap.Scale()),
+					map.addControl(new AMap.MapType()),
+					/* 	map.addControl(new AMap.ControlBar({
+							position: 'RT'
+						})), */
+					map.addControl(new AMap.ToolBar())
+			});
+
+
+			/* var tilelayer = new AMap.TileLayer({
+				zooms: [3, 20], //可见级别
+				visible: true, //是否可见
+				opacity: 1, //透明度
+				zIndex: 0 //叠加层级
+			})
+			var satellite = new AMap.TileLayer.Satellite();
+			var roadNet = new AMap.TileLayer.RoadNet();
+			var traffic = new AMap.TileLayer.Traffic({
+				'autoRefresh': true, //是否自动刷新，默认为false
+				'interval': 180, //刷新间隔，默认180s
+			});
+			var buildings = new AMap.Buildings({
+				'zooms': [16, 18],
+				'zIndex': 10,
+				'heightFactor': 2 //2倍于默认高度，3D下有效
+			}); //楼块图层 */
+
+			//添加图片图层
+			/* var imageLayer = new AMap.ImageLayer({
+					url: 'http://amappc.cn-hangzhou.oss-pub.aliyun-inc.com/lbs/static/img/dongwuyuan.jpg',
+					bounds: new AMap.Bounds(
+						[116.327911, 39.939229],
+						[116.342659, 39.946275]
+					),
+					zooms: [0, 18]
+				});
+				//添加图层
+				map.add(imageLayer);
+
+                //添加自定义图层
+				
+				// 构造点标记
+				var marker = new AMap.Marker({
+					icon: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+					position: [116.405467, 39.907761]
+				});
+				//添加覆盖物
+				map.add(marker);
+				
+				// 构造矢量圆形
+				var circle = new AMap.Circle({
+					center: new AMap.LngLat("116.403322", "39.920255"), // 圆心位置
+					radius: 1000, //半径
+					strokeColor: "#F33", //线颜色
+					strokeOpacity: 1, //线透明度
+					strokeWeight: 3, //线粗细度
+					fillColor: "#ee2200", //填充颜色
+					fillOpacity: 0.35 //填充透明度
+				});
+				map.add(circle);
+				map.setFitView(); */
+
+			var geoJSON1 = {
+				"type": "FeatureCollection",
+				"features": [
+					{
+						"type": "Feature",
+						"properties": {
+							"name": "点1"
+						},
+						"geometry": {
+							"type": "Point",
+							"coordinates": [119.825566, 30.194021]
+						}
+					},
+					{
+						"type": "Feature",
+						"properties": {
+							"name": "点2"
+						},
+						"geometry": {
+							"type": "Point",
+							"coordinates": [119.938519, 30.207522]
+						}
+					},
+					{
+						"type": "Feature",
+						"properties": {
+							"name": "点3"
+						},
+						"geometry": {
+							"type": "Point",
+							"coordinates": [119.969418, 30.172208]
+						}
+					},
+					{
+						"type": "Feature",
+						"properties": {
+							"name": "点4"
+						},
+						"geometry": {
+							"type": "Point",
+							"coordinates": [119.947961, 30.134654]
+						}
+					},
+					{
+						"type": "Feature",
+						"properties": {
+							"name": "点5"
+						},
+						"geometry": {
+							"type": "Point",
+							"coordinates": [119.884103, 30.124261]
+						}
+					},
+					{
+						"type": "Feature",
+						"properties": {
+							"name": "点6"
+						},
+						"geometry": {
+							"type": "Point",
+							"coordinates": [119.878423, 30.154284]
+						}
+					},
+					{
+						"type": "Feature",
+						"properties": {
+							"name": "线"
+						},
+						"geometry": {
+							"type": "LineString",
+							"coordinates": [
+								[119.825566, 30.194021],
+								[119.938519, 30.207522],
+								[119.969418, 30.172208],
+								[119.947961, 30.134654],
+								[119.884103, 30.124261],
+								[119.878423, 30.154284]
+							]
+						}
+					},
+					{
+						"type": "Feature",
+						"properties": {
+							"name": "面"
+						},
+						"geometry": {
+							"type": "Polygon",
+							"coordinates": [
+								[
+									[120.002721, 30.194763],
+									[120.053704, 30.216422],
+									[120.021775, 30.150538],
+									[120.042312, 30.161213],
+									[120.002721, 30.194763]
+								]
+							]
+						}
+					}
+				]
+			};
+
+
+			var sheshi = [{
+				name: '点1',
+				position: [119.825566, 30.194021],
+				icon: 'dian.svg'
+			}, {
+				name: '点2',
+				position: [119.938519, 30.207522],
+				icon: 'dian.svg'
+			}, {
+				name: '点3',
+				position: [119.969418, 30.172208],
+				icon: 'dian.svg'
+			}, {
+				name: '点4',
+				position: [119.947961, 30.134654],
+				icon: 'dian.svg'
+			}, {
+				name: '点5',
+				position: [119.884103, 30.124261],
+				icon: 'dian.svg'
+			}, {
+				name: '点6',
+				position: [119.878423, 30.154284],
+				icon: 'dian.svg'
+			}];
+
+			//动态设置marker图元的大小
+			map.on('zoomchange', function() {
+				//alert(map.getZoom());
+				/* var zoom = map.getZoom() / 20 * 32;
+				map.clearMap();
+				DrawE(zoom); */
+			});
+
+			var facilities = [];
+			var zoomStyleMapping1 = {
+				3: 0,
+				4: 0,
+				5: 0,
+				6: 0,
+				7: 0,
+				8: 0,
+				9: 0,
+				10: 0,
+				11: 0,
+				12: 0,
+				13: 0,
+				14: 0,
+				15: 0,
+				16: 0,
+				17: 0,
+				18: 0
+			};
+			/* for (var i = 0; i < sheshi.length; i += 1) {
+				var x = new AMap.ElasticMarker({
+					position: sheshi[i].position,
+					zooms: [3, 18],//代表显示层级
+					styles: [{
+						icon: {
+							img: 'icon/dianhuo.svg',
+							size: [32, 32], //可见区域的大小
+							ancher: [16, 16], //锚点
+							fitZoom: 10, //最合适的级别
+							scaleFactor: 2, //地图放大一级的缩放比例系数
+							maxScale: 8, //最大放大比例
+							minScale: 0.5 //最小放大比例
+						}
+					}],
+					zoomStyleMapping: zoomStyleMapping1
+				})
+				facilities.push(x);
+			}
+			map.add(facilities); */
+
+			//加载点、线、面   该方式有点飘
+			var geojson = new AMap.GeoJSON({
+				geoJSON: geoJSON1,
+				// 还可以自定义getMarker和getPolyline
+				getMarker: function(geojson, lnglats) {
+					return new AMap.ElasticMarker({
+						position: lnglats,
+						styles: [{
+							icon: {
+								img: '../../static/dian.svg',
+								size: [32, 32], //可见区域的大小
+								ancher: [16, 16], //锚点
+								fitZoom: 12, //最合适的级别
+								scaleFactor: 2, //地图放大一级的缩放比例系数
+								maxScale: 2, //最大放大比例
+								minScale: 0.5 //最小放大比例
+							}
+						}],
+						zoomStyleMapping: zoomStyleMapping1
+					});
+				},
+
+				getPolyline: function(geojson, lnglats) {
+					return new AMap.Polyline({
+						path: lnglats,
+						borderWeight: '1',
+						outlineColor: '#000000',
+						strokeColor: 'red',
+						strokeStyle: 'solid',
+						strokeWeight: '2'
+					});
+				},
+
+				getPolygon: function(geojson, lnglats) {
+					// 计算面积
+					var area = AMap.GeometryUtil.ringArea(lnglats[0])
+					return new AMap.Polygon({
+						path: lnglats,
+						fillOpacity: 1 - Math.sqrt(area / 8000000000), // 面积越大透明度越高
+						strokeColor: 'white',
+						fillColor: 'red'
+					});
+				},
+			});
+			geojson.setMap(map);
+		</script>
+     
+	</body>
+</html>

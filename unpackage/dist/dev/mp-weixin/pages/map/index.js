@@ -80,21 +80,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
-
-
-
-
-
-
-
-
-
-
-
-
-
-var _amapWx = _interopRequireDefault(__webpack_require__(/*! @/common/api/amap-wx.js */ "../../../../ani-product-pro/ani-product-pro/common/api/amap-wx.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
 //
 //
 //
@@ -106,73 +92,40 @@ var _amapWx = _interopRequireDefault(__webpack_require__(/*! @/common/api/amap-w
 //
 //
 //
-//
-var _default = { data: function data() {return { amapPlugin: null, key: 'fe280a21f9f696c9c5fa1eec9eab94b9', markers: [{}, {}, {}], poisdatas: [{}, {}, {}], title: 'map', latitude: '', longitude: '' };}, onLoad: function onLoad() {var _this = this;
-    uni.getLocation({
-      type: 'wgs84',
-      success: function success(res) {
-        _this.longitude = res.longitude;
-        _this.latitude = res.latitude;
-        console.log('当前位置的经度：' + res.longitude);
-        console.log('当前位置的纬度：' + res.latitude);
-      } });
+var _default =
+{
+  data: function data() {
+    return {
+      title: 'map',
+      latitude: 39.909,
+      longitude: 116.39742,
+      systeminfo: {} };
 
-    var that = this;
-    var amapFile = __webpack_require__(/*! @/common/api/amap-wx.js */ "../../../../ani-product-pro/ani-product-pro/common/api/amap-wx.js");
-    var amapPlugin = new amapFile.AMapWX({
-      key: "fe280a21f9f696c9c5fa1eec9eab94b9" });
-
-    amapPlugin.getPoiAround({
-      success: function success(data) {
-        //成功回调
-        that.markers = data.markers;
-        that.poisdatas = data.poisData;
-        console.log("data数据" + JSON.stringify(data));
-        var markers_new = [];
-        that.markers.forEach(function (item, index) {
-
-          markers_new.push({
-            id: item.id, //marker 序号
-            width: item.width, //marker 宽度
-            height: item.height, //marker 高度
-            iconPath: item.iconPath, //marker 图标路径
-            latitude: item.latitude, //marker  纬度
-            longitude: item.longitude, //marker 经度
-            //自定义标记点上方的气泡窗口
-            callout: {
-              padding: 2, //callout 文本边缘留白
-              fontSize: 15, //callout  文字大小
-              bgColor: 'blue', //callout 背景颜色
-              color: '#6B8E23', //callout 文字颜色
-              borderRadius: 5, //边框圆角
-              display: 'BYCLICK', //callout 'BYCLICK':点击显示; 'ALWAYS':常显
-              content: that.poisdatas[index].name //地理位置名称
-            } });
-
-        });
-        that.markers = markers_new;
-
-      },
-      fail: function fail(info) {
-        //失败回调
-        console.log("info", info);
-      } });
+  },
+  onLoad: function onLoad() {
+    this.getSysteminfo();
+    console.log("screenWidth=" + this.systeminfo.screenWidth);
+    console.log("screenHeight=" + this.systeminfo.screenHeight);
+    this.getLocation();
 
   },
   methods: {
-    //得到点击的marker的id，遍历markers数组，判断有没有相等的id
-    //如果有的就能从this.poisdatas[i].address得到坐标位置（没有就提醒下）
-    markertap: function markertap(e) {
-      for (var i = 0; i < this.markers.length; i++) {
-        if (JSON.stringify(e).substring(18, 20) == this.markers[i].id) {
-          console.log("markers" + this.poisdatas[i].name + "   " + this.poisdatas[i].address);
-          uni.showToast({
-            title: this.poisdatas[i].name,
-            mask: false,
-            duration: 1500 });
+    getSysteminfo: function getSysteminfo() {var _this = this;
+      uni.getSystemInfo({
+        success: function success(res) {
+          _this.systeminfo = res;
+        } });
 
-        }
-      }
+    },
+    getLocation: function getLocation() {var _this2 = this;
+      uni.getLocation({
+        success: function success(res) {
+          console.log(res);
+          _this2.latitude = res.latitude;
+          _this2.longitude = res.longitude;
+          console.log('当前位置的经度：' + _this2.latitude);
+          console.log('当前位置的纬度：' + _this2.longitude);
+        } });
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["default"]))

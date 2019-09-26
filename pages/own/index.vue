@@ -34,10 +34,7 @@
 		data(){
 			return{
 				uniCode:'',
-				globalData:{
-					userInfo:''
-				},
-				
+				globalData:{},
 				menuList:[
 					{
 						title:'我的宠物',
@@ -84,14 +81,14 @@
 		methods:{
 			getLogin(){
 				let params={
-					phoneNum:'18855440080',
-					nickName:'陈建国',
-					encryptedData:"zkbOCtkeFBwJ1B5PaU+23bCU8zxz7G6X4Ux9pgNboHVEz+PXjb6f2IB6jAynJPD3Q61jmxh9uTEq/Hj3JxGn52Q8R//BMVuk6vqrijjexH+GcmQfmt5AzOu1NJ1z6mM1WFomBKYrcTPB0CRST6jQZ1O276cVGOVxUAo2KRi4wSvwsRyHfFcbriqzRoSdBwEjYVrX07/i24XSfrnHNyI1OnALH+9pliYWk0+ZS6GU9HA6O8gT6xxYyuteuZxrUmOm2YI4WKf03jXAlFFUR7YrYzPd1SzA9AExA9gXzS+XH2Uir4bLpTEAhY1asYsgqTVRwwAD4XIbR7dg4iSC7FMA6Vep+I1I1E5Ef7CpfXIWaZfkwHXsRnOeVi5V3d4t1XmYdn07WSTIQ1TWjaX0Swwsmf94cpmf5qCZntOxP/62HBDtc6WpDKWyieP4zFQxLsjnOvZbvhPoCv4n+EGVT70NaB13Xpaovxp9zTCxIUN7Fjjs95rrdmQ9eMML3r0HX7sxz5HEqfWUqGchwOsbJx7BNA==",
-					code:'0010bnt11T4acX1Pgiu11RWmt110bntt',
-					iv:'LrT32ugdKyLbIYhtFcXfSQ==',
-					country:'China',
-					province:'Zhejiang',
-					city:'Hangzhou',
+					phoneNum:'',
+					nickName:this.globalData.userInfo.nickName,
+					encryptedData:this.globalData.encryptedData,
+					code:this.globalData.signature,
+					iv:this.globalData.iv,
+					country:this.globalData.userInfo.country,
+					province:this.globalData.userInfo.province,
+					city:this.globalData.userInfo.city,
 					sessionKey:this.uniCode
 				};
 				let data = {
@@ -138,9 +135,9 @@
 				}
 			},
 			getSessionKey(){
-				// this.getDataInfo()
+				this.getDataInfo()
 				let params={
-					code:"0010bnt11T4acX1Pgiu11RWmt110bntt"
+					code:this.uniCode
 				};
 				let data = {
 					'data': params
@@ -162,10 +159,10 @@
 			},
 			getDataInfo(){
 				wx.getUserInfo({
-					success: function(res) {
+					success: (res)=> {
 						debugger
-						that.globalData.userInfo = res.userInfo;
-						typeof cb == "function" && cb(that.globalData.userInfo, true);
+						this.globalData = res;
+						typeof cb == "function" && cb(this.globalData.userInfo, true);
 					},
 					fail: function() {
 						//2.第一次登陆不强制授权，直接返回

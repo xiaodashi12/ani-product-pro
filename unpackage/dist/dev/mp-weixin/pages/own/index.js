@@ -159,10 +159,7 @@ var _index = _interopRequireDefault(__webpack_require__(/*! @/common/api/index.j
 //
 //
 //
-var _default = { data: function data() {return { uniCode: '', globalData: { userInfo: '' }, menuList: [{ title: '我的宠物', url: '/pages/etc/my-car/my-car', iconUrl: '/static/own/ownpet.png' }, { title: '我领养的动物', url: '/pages/etc/my-pay-account/my-pay-account', iconUrl: '/static/own/getpet.png' }, { title: '我丢失的动物', url: '/pages/personal/my-order/my-order', iconUrl: '/static/own/losepet.png' }, { title: '我要曝光', url: '', iconUrl: '/static/own/baog.png' }, {
-        title: '投诉和建议',
-        url: '/pages/personal/my-order/my-order',
-        iconUrl: '/static/own/tousu.png' },
+var _default = { data: function data() {return { uniCode: '', globalData: {}, menuList: [{ title: '我的宠物', url: '/pages/etc/my-car/my-car', iconUrl: '/static/own/ownpet.png' }, { title: '我领养的动物', url: '/pages/etc/my-pay-account/my-pay-account', iconUrl: '/static/own/getpet.png' }, { title: '我丢失的动物', url: '/pages/personal/my-order/my-order', iconUrl: '/static/own/losepet.png' }, { title: '我要曝光', url: '', iconUrl: '/static/own/baog.png' }, { title: '投诉和建议', url: '/pages/personal/my-order/my-order', iconUrl: '/static/own/tousu.png' },
 
       {
         title: '我的消息',
@@ -184,14 +181,14 @@ var _default = { data: function data() {return { uniCode: '', globalData: { user
   methods: {
     getLogin: function getLogin() {var _this = this;
       var params = {
-        phoneNum: '18855440080',
-        nickName: '陈建国',
-        encryptedData: "zkbOCtkeFBwJ1B5PaU+23bCU8zxz7G6X4Ux9pgNboHVEz+PXjb6f2IB6jAynJPD3Q61jmxh9uTEq/Hj3JxGn52Q8R//BMVuk6vqrijjexH+GcmQfmt5AzOu1NJ1z6mM1WFomBKYrcTPB0CRST6jQZ1O276cVGOVxUAo2KRi4wSvwsRyHfFcbriqzRoSdBwEjYVrX07/i24XSfrnHNyI1OnALH+9pliYWk0+ZS6GU9HA6O8gT6xxYyuteuZxrUmOm2YI4WKf03jXAlFFUR7YrYzPd1SzA9AExA9gXzS+XH2Uir4bLpTEAhY1asYsgqTVRwwAD4XIbR7dg4iSC7FMA6Vep+I1I1E5Ef7CpfXIWaZfkwHXsRnOeVi5V3d4t1XmYdn07WSTIQ1TWjaX0Swwsmf94cpmf5qCZntOxP/62HBDtc6WpDKWyieP4zFQxLsjnOvZbvhPoCv4n+EGVT70NaB13Xpaovxp9zTCxIUN7Fjjs95rrdmQ9eMML3r0HX7sxz5HEqfWUqGchwOsbJx7BNA==",
-        code: '0010bnt11T4acX1Pgiu11RWmt110bntt',
-        iv: 'LrT32ugdKyLbIYhtFcXfSQ==',
-        country: 'China',
-        province: 'Zhejiang',
-        city: 'Hangzhou',
+        phoneNum: '',
+        nickName: this.globalData.userInfo.nickName,
+        encryptedData: this.globalData.encryptedData,
+        code: this.globalData.signature,
+        iv: this.globalData.iv,
+        country: this.globalData.userInfo.country,
+        province: this.globalData.userInfo.province,
+        city: this.globalData.userInfo.city,
         sessionKey: this.uniCode };
 
       var data = {
@@ -238,9 +235,9 @@ var _default = { data: function data() {return { uniCode: '', globalData: { user
       }
     },
     getSessionKey: function getSessionKey() {var _this3 = this;
-      // this.getDataInfo()
+      this.getDataInfo();
       var params = {
-        code: "0010bnt11T4acX1Pgiu11RWmt110bntt" };
+        code: this.uniCode };
 
       var data = {
         'data': params };
@@ -260,12 +257,12 @@ var _default = { data: function data() {return { uniCode: '', globalData: { user
         _this3.isLoading = false;
       });
     },
-    getDataInfo: function getDataInfo() {
+    getDataInfo: function getDataInfo() {var _this4 = this;
       wx.getUserInfo({
         success: function success(res) {
           debugger;
-          that.globalData.userInfo = res.userInfo;
-          typeof cb == "function" && cb(that.globalData.userInfo, true);
+          _this4.globalData = res;
+          typeof cb == "function" && cb(_this4.globalData.userInfo, true);
         },
         fail: function fail() {
           //2.第一次登陆不强制授权，直接返回
